@@ -10,6 +10,7 @@
     <!-- Preload css styles sheet to prevent css blocking -->
     <link rel="preload" href="css/style.css" as="style" onload="this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="css/style.css"></noscript>
+    <link rel="preload" href="//fonts.googleapis.com/css?family=Open+Sans:400,700" as="style">
      <!-- added print media to improve performance by not render blocking -->
     <link href="css/print.css" rel="stylesheet" media="print">
     
@@ -60,7 +61,7 @@
       </footer>
     </div>
     <!-- part of font loader javascript -->
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
       WebFontConfig = {
         google: { families: [ 'Open+Sans:400,700' ] }
       };
@@ -73,7 +74,7 @@
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(wf, s);
       })();
-    </script>
+    </script> -->
     <!-- Moved google analytics to end of body to improve proformance -->
     <script>
       (function(w,g){w['GoogleAnalyticsObject']=g;
