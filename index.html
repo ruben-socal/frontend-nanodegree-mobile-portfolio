@@ -10,7 +10,7 @@
     <!-- Preload css styles sheet to prevent css blocking -->
     <link rel="preload" href="css/style.css" as="style" onload="this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="css/style.css"></noscript>
-    <link rel="preload" href="//fonts.googleapis.com/css?family=Open+Sans:400,700" as="style">
+    <link rel="preload" href="//fonts.googleapis.com/css?family=Open+Sans:400,700" as="style" onload="this.rel='stylesheet'">
      <!-- added print media to improve performance by not render blocking -->
     <link href="css/print.css" rel="stylesheet" media="print">
     
@@ -31,19 +31,22 @@
       <div class="content">
         <ul>
           <li>
-            <img src="img/2048-pic.jpg">
+            <!-- <img src="img/2048-pic.jpg"> -->
+            <link rel="preload" as="image" href="img/2048-pic.jpg">
             <a href="project-2048.html">Build Your Own 2048!</a>
             <p>I made my own version of 2048. How cool is that!?</p>
           </li>
 
           <li>
-            <img src="img/webperf-pic.jpg">
+            <!-- <img src="img/webperf-pic.jpg"> -->
+            <link rel="preload" as="image" href="img/webperf-pic.jpg">
             <a href="project-webperf.html">Website Performance Optimization</a>
             <p>Hey... this class looks familiar.</p>
           </li>
 
           <li>
-            <img src="img/mobile-pic.jpg">
+            <!-- <img src="img/mobile-pic.jpg"> -->
+            <link rel="preload" as="image" href="img/mobile-pic.jpg">
             <a href="project-mobile.html">Mobile Web Development</a>
             <p>Making mobile apps isn't so hard after all.</p>
           </li>
