@@ -443,11 +443,11 @@ var resizePizzas = function(size) {
     //   }
     // }
 
-    var newSize = sizeSwitcher(size);
-    var dx = (newSize - oldSize) * windowWidth;
+  //   var newSize = sizeSwitcher(size);
+  //   var dx = (newSize - oldSize) * windowWidth;
 
-    return dx;
-  }
+  //   return dx;
+  // }
 
   // Iterates through pizza elements on the page and changes their widths
   // code has been chnges to prevent forced reflow
