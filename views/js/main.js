@@ -527,7 +527,8 @@ function updatePositions() {
 
   //var items = document.querySelectorAll('.mover');
   // more efficient way to get elements
-  var items = document.getElementsByClass('.mover');
+  var items = document.getElementsByClass('mover');
+  document.getElementsByClass
   var cachedScrollTop = document.body.scrollTop;
   var phaseNumber = cachedScrollTop / 1250;
   for (var i = 0; i < items.length; i++) {
