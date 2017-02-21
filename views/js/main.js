@@ -461,6 +461,7 @@ var resizePizzas = function(size) {
   // }
 
     // Iterates through pizza elements on the page and changes their widths
+    // optimized code by removing bloated code function determineDx
      function changePizzaSizes(size) {
       switch(size) {
         case "1":
@@ -547,10 +548,11 @@ function updatePositions() {
 window.addEventListener('scroll', updatePositions);
 
 // Generates the sliding pizzas when the page loads.
+// Reduce number of pizzas from 200 to 31 which is all that is needed to fill window
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  for (var i = 0; i < 31; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
