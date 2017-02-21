@@ -525,11 +525,16 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
+  //var items = document.querySelectorAll('.mover');
+  // more efficient way to get elements
+  var items = document.getElementsByClass('mover');
   var cachedScrollTop = document.body.scrollTop;
+  var phaseNumber = cachedScrollTop / 1250;
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((cachedScrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    var phase = Math.sin(phaseNumber + (i % 5));
+    //items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    // use transform: TranslateX(); to keep layouts from retriggering
+    items[i].style.transform = 'translateX( items[i].basicLeft + 100 * phase + 'px')';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
