@@ -545,7 +545,11 @@ function updatePositions() {
 }
 
 // runs updatePositions on scroll
-window.addEventListener('scroll', updatePositions);
+// add requestionAnimationFrame to addEventlistener for Scroll
+//window.addEventListener('scroll', updatePositions);
+window.addEventListener('scroll', function() {
+    window.requestAnimationFrame(updatePositions);
+});
 
 // Generates the sliding pizzas when the page loads.
 // Reduce number of pizzas from 200 to 31 which is all that is needed to fill window
