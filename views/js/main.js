@@ -522,7 +522,6 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 }
 
 
-var items;
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
@@ -532,7 +531,7 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  //var items = document.querySelectorAll('.mover');
+  var items = document.querySelectorAll('.mover');
   var cachedScrollTop = document.body.scrollTop;
   var phaseNumber = cachedScrollTop / 1250;
   for (var i = 0; i < items.length; i++) {
@@ -540,7 +539,6 @@ function updatePositions() {
     // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
     var position = items[i].basicLeft + 1000 * phase;
     items[i].style.transform = 'translateX(' + parseInt(position) + 'px)';
-    console.log("item: "+item[i]);
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -555,10 +553,10 @@ function updatePositions() {
 
 // runs updatePositions on scroll
 // add requestionAnimationFrame to addEventlistener for Scroll
-//window.addEventListener('scroll', updatePositions);
-window.addEventListener('scroll', function() {
-    window.requestAnimationFrame(updatePositions);
-});
+window.addEventListener('scroll', updatePositions);
+// window.addEventListener('scroll', function() {
+//     window.requestAnimationFrame(updatePositions);
+// });
 
 // Generates the sliding pizzas when the page loads.
 // Reduce number of pizzas from 200 to 31 which is all that is needed to fill window
@@ -575,6 +573,5 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
-  items = document.getElementsByClassName('mover');
   updatePositions();
 });
