@@ -549,18 +549,20 @@ function updatePositions() {
     var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
     logAverageFrame(timesToUpdatePosition);
   }
+  // added requestAnimationFrame to call function updatePositions
+  requestAnimationFrame(updatePositions);
 }
 
 // runs updatePositions on scroll
 // add requestionAnimationFrame to addEventlistener for Scroll
-window.addEventListener('scroll', updatePositions);
-// window.addEventListener('scroll', function() {
-//     window.requestAnimationFrame(updatePositions);
-// });
+//window.addEventListener('scroll', updatePositions);
+ window.addEventListener('scroll', function() {
+     updatePositions;
+ });
 
 // Generates the sliding pizzas when the page loads.
 // Reduce number of pizzas from 200 to 31 which is all that is needed to fill window
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() { 
   var cols = 8;
   var s = 256;
   for (var i = 0; i < 31; i++) {
