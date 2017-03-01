@@ -521,6 +521,21 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
   console.log("Average scripting time to generate last 10 frames: " + sum / 10 + "ms");
 }
 
+//  Debouncing Scroll Events by Paul Lewis https://www.html5rocks.com/en/tutorials/speed/animations/
+var latestKnownScrollY = 0,
+  ticking = false;
+
+function onScroll() {
+  latestKnownScrollY = window.scrollY;
+  requestTick();
+}
+
+function requestTick() {
+  if(!ticking) {
+    requestAnimationFrame(updatePositions);
+  }
+  ticking = true;
+}
 
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
@@ -530,6 +545,10 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
+  // reset the tick so we can
+  // capture the next onScroll
+  ticking = false;
+  var currentScrollY = latestKnownScrollY;
 
   var items = document.querySelectorAll('.mover');
   var cachedScrollTop = document.body.scrollTop;
@@ -550,15 +569,18 @@ function updatePositions() {
     logAverageFrame(timesToUpdatePosition);
   }
   // added requestAnimationFrame to call function updatePositions
-  requestAnimationFrame(updatePositions);
+  //requestAnimationFrame(updatePositions);
 }
 
 // runs updatePositions on scroll
 // add requestionAnimationFrame to addEventlistener for Scroll
 //window.addEventListener('scroll', updatePositions);
- window.addEventListener('scroll', function() {
-     updatePositions;
- });
+ // window.addEventListener('scroll', function() {
+ //     updatePositions;
+ // });
+
+ //  Debouncing Scroll Events by Paul Lewis https://www.html5rocks.com/en/tutorials/speed/animations
+ window.addEventListener('scroll', onScroll, false);
 
 // Generates the sliding pizzas when the page loads.
 // Reduce number of pizzas from 200 to 31 which is all that is needed to fill window
@@ -575,5 +597,6 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
-  updatePositions();
+  //updatePositions();
+  requestAnimationFrame(updatePositions);
 });
