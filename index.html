@@ -12,6 +12,7 @@
     <noscript><link rel="stylesheet" href="css/style.min.css"></noscript> -->
     <style>html{font-size:100%;overflow-y:scroll;-webkit-tap-highlight-color:transparent;-ms-text-size-adjust:100%;-webkit-text-size-adjust:none}body{margin:0;font-size:14px;line-height:1.61;font-weight:400}body,button,input,select,textarea{font-family:'Open Sans',sans-serif;color:#333}a{color:#12c}a:visited{color:#61c}a:focus{outline:thin dotted}a:active,a:hover{color:#c00;outline:0}b,strong{font-weight:700}code,pre{font-family:monospace,monospace;font-size:1em}ol,ul{margin:1em 0;padding:0 0 0 20px}img{border:0;max-width:100%}body{background:#fff}.container,footer,header{max-width:45em;margin:0 auto}header{padding:0 .5em;color:#c90b0b}header img{border-radius:40px;float:left}header p{font-size:1.5em;font-weight:700;padding-left:4em}header p span{font-size:.8em;font-weight:400}.hero{padding:2em;background-color:#f8f8f8;font-size:1.2em;border-bottom:1px solid #ccc;border-top:1px solid #ccc}.content{padding:1em 1em}.content li{list-style-type:none;font-size:1.1em}li img{float:left;padding-right:1em}li p{font-size:.9em;font-style:italic}footer{padding:0 .5em;border-top:1px solid #ccc}footer span{float:right;font-style:italic}@media only screen and (max-width:480px){body{font-size:12px}header p{padding-left:4.5em}}</style>
     <!-- <link rel="preload" href="//fonts.googleapis.com/css?family=Open+Sans:400,700" as="style" onload="this.rel='stylesheet'"> -->
+    <!-- Using Web Font Loader asynchronously to load google fonts -->
     <script>
       var WebFontConfig = {
         google: {
@@ -29,16 +30,17 @@
     </script>
      <!-- added print media to improve performance by not render blocking -->
     <link href="css/print.min.css" rel="stylesheet" media="print">
-    <link rel="preload" as="image" href="img/2048-pic.jpg">
-    <link rel="preload" as="image" href="img/webperf-pic.jpg">
-    <link rel="preload" as="image" href="img/mobile-pic.jpg">
-    <link rel="preload" as="image" href="views/images/pizzeria-small.jpg">
+    <link rel="preload" as="image" href="dist/img/profilepic-min.jpg">
+    <link rel="preload" as="image" href="dist/img/2048pic-min.jpg">
+    <link rel="preload" as="image" href="dist/img/webperf-min.jpg">
+    <link rel="preload" as="image" href="dist/img/mobile-min.jpg">
+    <link rel="preload" as="image" href="views/dist/images/pizzeria-small-min.jpg">
     
   </head>
 
   <body>
     <header>
-      <a href="/"><img src="img/profilepic.jpg"></a>
+      <a href="/"><img src="dist/img/profilepic-min.jpg"></a>
       <p>Cameron Pittman<br><span>Course Developer</span></p>
     </header>
 
@@ -50,25 +52,25 @@
       <div class="content">
         <ul>
           <li>
-            <img src="img/2048-pic.jpg">
+            <img src="dist/img/2048-min.jpg">
             <a href="project-2048.html">Build Your Own 2048!</a>
             <p>I made my own version of 2048. How cool is that!?</p>
           </li>
 
           <li>
-            <img src="img/webperf-pic.jpg">
+            <img src="dist/img/webperf-min.jpg">
             <a href="project-webperf.html">Website Performance Optimization</a>
             <p>Hey... this class looks familiar.</p>
           </li>
 
           <li>
-            <img src="img/mobile-pic.jpg">
+            <img src="dist/img/mobile-min.jpg">
             <a href="project-mobile.html">Mobile Web Development</a>
             <p>Making mobile apps isn't so hard after all.</p>
           </li>
 
           <li>
-            <img style="width: 100px;" src="views/images/pizzeria-small.jpg">
+            <img style="width: 100px;" src="views/dist/images/pizzeria-small-min.jpg">
             <a href="views/pizza.html">Cam's Pizzeria</a>
             <p>Who wants a performant pizza?</p>
           </li>
@@ -90,6 +92,6 @@
       ga('send', 'pageview');
     </script>
     <script async src="https://www.google-analytics.com/analytics.js"></script>
-    <script async src="js/perfmatters.min.js"></script>
+    <script async src="dist/js/perfmatters.min.js"></script>
   </body>
 </html>
