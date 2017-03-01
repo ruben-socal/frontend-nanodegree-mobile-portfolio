@@ -559,7 +559,6 @@ function updatePositions() {
     var position = items[i].basicLeft + 1000 * phase;
     items[i].style.transform = 'translateX(' + parseInt(position) + 'px)';
   }
-
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
   window.performance.mark("mark_end_frame");
@@ -568,35 +567,35 @@ function updatePositions() {
     var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
     logAverageFrame(timesToUpdatePosition);
   }
-  // added requestAnimationFrame to call function updatePositions
-  //requestAnimationFrame(updatePositions);
 }
 
 // runs updatePositions on scroll
 // add requestionAnimationFrame to addEventlistener for Scroll
-//window.addEventListener('scroll', updatePositions);
- // window.addEventListener('scroll', function() {
- //     updatePositions;
- // });
-
- //  Debouncing Scroll Events by Paul Lewis https://www.html5rocks.com/en/tutorials/speed/animations
+// Replaced window.addEventListener('scroll', updatePositions);
+//  With Debouncing Scroll Events by Paul Lewis https://www.html5rocks.com/en/tutorials/speed/animations
+// this keeps requestAnimationFrame from contantly being call, and only being called when needed
  window.addEventListener('scroll', onScroll, false);
 
 // Generates the sliding pizzas when the page loads.
 // Reduce number of pizzas from 200 to 31 which is all that is needed to fill window
-document.addEventListener('DOMContentLoaded', function() { 
-  var cols = 8;
-  var s = 256;
-  for (var i = 0; i < 31; i++) {
-    var elem = document.createElement('img');
-    elem.className = 'mover';
-    elem.src = "dist/images/pizza-min.png";
-    elem.style.height = "100px";
-    elem.style.width = "73.333px";
-    elem.basicLeft = (i % cols) * s;
-    elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
+// replaced document.addEventListener('DOMContentLoaded', function()
+// Used document.readystatechange to check when async main.min.js had loaded
+// (https://developer.mozilla.org/en-US/docs/Web/API/Document/readyState)
+document.onreadystatechange = function () {
+  if (document.readyState === "complete") {
+    var cols = 8;
+    var s = 256;
+    for (var i = 0; i < 31; i++) {
+      var elem = document.createElement('img');
+      elem.className = 'mover';
+      elem.src = "dist/images/pizza-min.png";
+      elem.style.height = "100px";
+      elem.style.width = "73.333px";
+      elem.basicLeft = (i % cols) * s;
+      elem.style.top = (Math.floor(i / cols) * s) + 'px';
+      document.querySelector("#movingPizzas1").appendChild(elem);
+    }
+    //updatePositions();
+    requestAnimationFrame(updatePositions);
   }
-  //updatePositions();
-  requestAnimationFrame(updatePositions);
-});
+};
