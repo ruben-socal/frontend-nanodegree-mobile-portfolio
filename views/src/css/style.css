@@ -33,6 +33,11 @@ form {
   position: fixed;
   width: 256px;
   z-index: -1;
+  /* Added backface-visibility: hidden; to improve framerate by making
+  each indiivdual pizza a composite layer and keep from having to repaint a whole layer
+  which takes more time. Hack credit goes to Mark N from Website Optimization Project Webcasts:
+  Tips - Increasing Framerate (FPS)*/
+  backface-visibility: hidden;
 }
 
 .randomPizzaContainer {
