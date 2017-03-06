@@ -10,7 +10,7 @@ Part 2: Make optimizations to views/main.js so that views/pizza.html renders con
 #### Tools Used on This Project
 * [Grunt](http://gruntjs.com/)
 
-**Grunt plugin used:**
+	**Grunt plugins used:**
 * [uglify](https://www.npmjs.com/package/grunt-contrib-uglify) used to minify javascript files
 * [imagemin](https://www.npmjs.com/package/grunt-contrib-imagemin) used to minify images
 * [cssmin](https://www.npmjs.com/package/grunt-contrib-cssmin) used to minify css files
