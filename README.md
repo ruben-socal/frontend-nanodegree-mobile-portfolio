@@ -10,7 +10,7 @@ Part 2: Make optimizations to views/main.js so that views/pizza.html renders con
 #### Tools Used on This Project
 * [Grunt](http://gruntjs.com/)
 
-** Grunt plugin used:
+** Grunt plugin used: **
 * [uglify](https://www.npmjs.com/package/grunt-contrib-uglify) used to minify javascript files
 * [imagemin](https://www.npmjs.com/package/grunt-contrib-imagemin) used to minify images
 * [cssmin](https://www.npmjs.com/package/grunt-contrib-cssmin) used to minify css files
@@ -35,14 +35,14 @@ Part 2: Make optimizations to views/main.js so that views/pizza.html renders con
 5. Minimized javascript perfmatters.js to perfmatters.min.js using grunt uglify
 6. Used asynchronous on javascript files for google analytics and perfmatters-min
 
- #### views/pizza.html optimizations
+#### views/pizza.html optimizations
 1. Minimized style.css using grunt grunt cssmin and inlined it on html
 2. Minimized bootstrap-grid.css and added extension to name as follows: bootstrap-grid.min.css
 3. Minimized images using grunt imagemin and added file name extension of -min.jpg and -min.png
 4. Used preload in <link> to preload images
 5. Minimized javascript main.js and added file name extension: main.min.js
 
- #### views/main.js optimizations
+#### views/main.js optimizations
 1. On the function changePizzaSizes I used Cameron Pittmans video Stop FSL (Forced Synchronous Layout) to
    solve the problem of FSL. The offsetWidth being called before the style.width
    was causing the FSL, therefore I removed offsetWidth, combined determinDX with
