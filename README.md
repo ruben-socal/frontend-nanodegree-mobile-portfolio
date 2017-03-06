@@ -25,10 +25,12 @@ Part 2: Make optimizations to views/main.js so that views/pizza.html renders con
 * [Hosting the website was done on github pages](https://guides.github.com/features/pages/) to test on Page Speed Insights
 *  [Chrome Devtools](https://developer.chrome.com/devtools) used to measure frame per second and resize speed of 5ms
 * Directories used for source src and producion dist files:
+```bash
 	src     	dist    	views/src    		views/dist
 	|-img       |-img             |-images            |-images
 	|-css       |-css             |-css               |-css
 	|-js        |-js              |-js                |-js
+```
 
 ## Project Optimizations
 
