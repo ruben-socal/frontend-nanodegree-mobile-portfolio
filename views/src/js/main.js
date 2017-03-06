@@ -422,7 +422,6 @@ var resizePizzas = function(size) {
   changeSliderLabel(size);
 
   // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
-  // bloated code not needed
   // function determineDx (elem, size) {
   //   var oldWidth = elem.offsetWidth;
   //   var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
@@ -461,6 +460,10 @@ var resizePizzas = function(size) {
   // }
 
     // Iterates through pizza elements on the page and changes their widths
+    // Used Cameron Pittmans video Stop FSL to solve the problem of FSL
+    // The offsetWidth being called before the style.width was causing the FSL
+    // Therefore I removed offsetWidth, combined determinDX with changePizzaSlices
+    // set the newwidth based on the size and set the style.width = newwidth
     // optimized code by removing function determineDx
      function changePizzaSizes(size) {
       switch(size) {
@@ -521,7 +524,9 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
   console.log("Average scripting time to generate last 10 frames: " + sum / 10 + "ms");
 }
 
-//  Debouncing Scroll Events by Paul Lewis https://www.html5rocks.com/en/tutorials/speed/animations/
+// onScroll and requestTick are used to with requestAnimationFrame to avoid reflow-repaint loops
+// and is only call when requestAnimationFrame updates are needed
+//  With Debouncing Scroll Events by Paul Lewis https://www.html5rocks.com/en/tutorials/speed/animations
 var latestKnownScrollY = 0,
   ticking = false;
 
@@ -539,9 +544,12 @@ function requestTick() {
 
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
-
 // Moves the sliding background pizzas based on scroll position
-// Used tarnsform = translateX to keep layouts from retriggering
+
+// Used "Website Optimization Project webcasts: Tips - Increasing Framerate (FPS)" to optimized 
+// the updatePositions function
+// Used transform = translateX to keep layouts from retriggering and removed items.style.left
+// and moved variables not required in for loop out: items, cacheScrollTop and phaseNumber
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
@@ -558,6 +566,7 @@ function updatePositions() {
     // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
     var position = items[i].basicLeft + 1000 * phase;
     items[i].style.transform = 'translateX(' + parseInt(position) + 'px)';
+
   }
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
@@ -573,14 +582,16 @@ function updatePositions() {
 // add requestionAnimationFrame to addEventlistener for Scroll
 // Replaced window.addEventListener('scroll', updatePositions);
 //  With Debouncing Scroll Events by Paul Lewis https://www.html5rocks.com/en/tutorials/speed/animations
-// this keeps requestAnimationFrame from contantly being call, and only being called when needed
+// this keeps requestAnimationFrame from constantly being call, and only being called when needed
  window.addEventListener('scroll', onScroll, false);
 
 // Generates the sliding pizzas when the page loads.
-// Reduce number of pizzas from 200 to 31 which is all that is needed to fill window
+// Reduced number of pizzas from 200 to 31 which is all that is needed to fill window
 // replaced document.addEventListener('DOMContentLoaded', function()
-// Used document.readystatechange to check when async main.min.js had loaded
-// (https://developer.mozilla.org/en-US/docs/Web/API/Document/readyState)
+// Used document.readystatechange to check when the document has loaded
+// this prevents the async main.min.js  file from loading before the document causing
+// background pizzas to disappear. The solution came from:
+// http://stackoverflow.com/questions/9237044/async-loaded-scripts-with-domcontentloaded-or-load-event-handlers-not-being-call
 document.onreadystatechange = function () {
   if (document.readyState === "complete") {
     var cols = 8;
