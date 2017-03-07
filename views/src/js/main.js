@@ -399,6 +399,7 @@ var pizzaElementGenerator = function(i) {
 };
 
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
+// Replaced querySelector with getElementById for better performance
 var resizePizzas = function(size) {
   window.performance.mark("mark_start_resize");   // User Timing API function
 
@@ -406,13 +407,13 @@ var resizePizzas = function(size) {
   function changeSliderLabel(size) {
     switch(size) {
       case "1":
-        document.querySelector("#pizzaSize").innerHTML = "Small";
+        document.getElementById("pizzaSize").innerHTML = "Small";
         return;
       case "2":
-        document.querySelector("#pizzaSize").innerHTML = "Medium";
+        document.getElementById("pizzaSize").innerHTML = "Medium";
         return;
       case "3":
-        document.querySelector("#pizzaSize").innerHTML = "Large";
+        document.getElementById("pizzaSize").innerHTML = "Large";
         return;
       default:
         console.log("bug in changeSliderLabel");
@@ -480,7 +481,7 @@ var resizePizzas = function(size) {
           console.log("bug in sizeSwitcher");
       }
 
-     var pizzas = document.querySelectorAll(".randomPizzaContainer");
+     var pizzas = document.getElementsByClassName("randomPizzaContainer");
 
      for (var i = 0; i < pizzas.length; i++) {
        pizzas[i].style.width = newwidth + "%";
@@ -550,6 +551,7 @@ function requestTick() {
 // the updatePositions function
 // Used transform = translateX to keep layouts from retriggering and removed items.style.left
 // and moved variables not required in for loop out: items, cacheScrollTop and phaseNumber
+//Replaced querySelectorAll with getElementsByClass to improve performance
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
@@ -557,14 +559,19 @@ function updatePositions() {
   // capture the next onScroll
   ticking = false;
   var currentScrollY = latestKnownScrollY;
-
-  var items = document.querySelectorAll('.mover');
+  var items = document.getElementsByClassName('mover');
   var cachedScrollTop = document.body.scrollTop;
   var phaseNumber = cachedScrollTop / 1250;
+  var phase = [Math.sin(phaseNumber + 0),
+               Math.sin(phaseNumber + 1),
+               Math.sin(phaseNumber + 2),
+               Math.sin(phaseNumber + 3),
+               Math.sin(phaseNumber + 4)];
+  var position;
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin(phaseNumber + (i % 5));
+    //phase = Math.sin(phaseNumber + (i % 5));
     // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-    var position = items[i].basicLeft + 1000 * phase;
+    position = items[i].basicLeft + 1000 * phase[(i % 5)];
     items[i].style.transform = 'translateX(' + parseInt(position) + 'px)';
 
   }
@@ -596,15 +603,16 @@ document.onreadystatechange = function () {
   if (document.readyState === "complete") {
     var cols = 8;
     var s = 256;
+    var elem;
     for (var i = 0; i < 31; i++) {
-      var elem = document.createElement('img');
+      elem = document.createElement('img');
       elem.className = 'mover';
       elem.src = "dist/images/pizza-min.png";
       elem.style.height = "100px";
       elem.style.width = "73.333px";
       elem.basicLeft = (i % cols) * s;
       elem.style.top = (Math.floor(i / cols) * s) + 'px';
-      document.querySelector("#movingPizzas1").appendChild(elem);
+      document.getElementById("movingPizzas1").appendChild(elem);
     }
     //updatePositions();
     requestAnimationFrame(updatePositions);

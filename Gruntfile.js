@@ -17,7 +17,7 @@ module.exports = function(grunt) {
             build: {
                 files:[{
                     src: 'src/js/perfmatters.js',        //regular file
-                    dest: 'dist/js/main.min.js'    //minimized files
+                    dest: 'dist/js/perfmatters.min.js'    //minimized files
                 },
                 {
                     src: 'views/src/js/main.js',        //regular file
