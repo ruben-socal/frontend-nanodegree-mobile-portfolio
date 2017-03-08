@@ -404,6 +404,7 @@ var resizePizzas = function(size) {
   window.performance.mark("mark_start_resize");   // User Timing API function
 
   // Changes the value for the size of the pizza above the slider
+  // replace querySelector with getElementById to improve performance
   function changeSliderLabel(size) {
     switch(size) {
       case "1":
@@ -500,8 +501,9 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
-for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
+// Creating variables inside the loop can be very expensive so I moved pizzaDiv outside the loop
+var pizzasDiv = document.getElementById("randomPizzas");
+for (var i = 2; i < 100; i++) {  
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -551,7 +553,8 @@ function requestTick() {
 // the updatePositions function
 // Used transform = translateX to keep layouts from retriggering and removed items.style.left
 // and moved variables not required in for loop out: items, cacheScrollTop and phaseNumber
-//Replaced querySelectorAll with getElementsByClass to improve performance
+// Replaced querySelectorAll with getElementsByClass to improve performance
+// creating a variable inside a loop can be very expensive, so I moved creation of phase variable outside the for loop 
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
@@ -562,17 +565,25 @@ function updatePositions() {
   var items = document.getElementsByClassName('mover');
   var cachedScrollTop = document.body.scrollTop;
   var phaseNumber = cachedScrollTop / 1250;
+  // Creating a variable inside a loop can be very expensive so I move the creation of phase variable outside the loop.
+  // phase Math calculation inside the loop can be expensive by figuring out that modulus 5 only returns 5 values, 0 thru 4,
+  // the values for phase could be calculated into an array outside the loop
   var phase = [Math.sin(phaseNumber + 0),
                Math.sin(phaseNumber + 1),
                Math.sin(phaseNumber + 2),
                Math.sin(phaseNumber + 3),
                Math.sin(phaseNumber + 4)];
-  var position;
-  for (var i = 0; i < items.length; i++) {
-    //phase = Math.sin(phaseNumber + (i % 5));
+  //var position;
+  // len variable created to keep the length of items array more efficient then having to check for array length every loop
+  var len = items.length
+  for (var i = 0; i < len; i++) {
+    // phase = Math.sin(phaseNumber + (i % 5));
     // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-    position = items[i].basicLeft + 1000 * phase[(i % 5)];
-    items[i].style.transform = 'translateX(' + parseInt(position) + 'px)';
+    // position = items[i].basicLeft + 1000 * phase[(i % 5)];
+    // items[i].style.transform = 'translateX(' + parseInt(position) + 'px)';
+    // On translateX I removed items[i].basicLeft from equation that was causing background pizzas to only show 50% or less
+    // on most screens
+    items[i].style.transform = 'translateX(' + 100 * phase[i % 5] + 'px)';
 
   }
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -599,20 +610,26 @@ function updatePositions() {
 // this prevents the async main.min.js  file from loading before the document causing
 // background pizzas to disappear. The solution came from:
 // http://stackoverflow.com/questions/9237044/async-loaded-scripts-with-domcontentloaded-or-load-event-handlers-not-being-call
+// I replaced querySelector with getElementById and moved the creation of variable elem outside the loop.
 document.onreadystatechange = function () {
   if (document.readyState === "complete") {
     var cols = 8;
     var s = 256;
+    // Moved creation of variable elem outside the loop
     var elem;
+    // created variable movingPizza so I could move call to document.getElementsById outside the loop
+    var movingPizzas = document.getElementById("movingPizzas1");
     for (var i = 0; i < 31; i++) {
       elem = document.createElement('img');
       elem.className = 'mover';
       elem.src = "dist/images/pizza-min.png";
       elem.style.height = "100px";
       elem.style.width = "73.333px";
-      elem.basicLeft = (i % cols) * s;
+      //elem.basicLeft = (i % cols) * s;
+      // the use of translateX requires that the elem.basicLeft be changed to as follows:
+      elem.style.left = (i % cols) * s + 'px';
       elem.style.top = (Math.floor(i / cols) * s) + 'px';
-      document.getElementById("movingPizzas1").appendChild(elem);
+      movingPizzas.appendChild(elem);
     }
     //updatePositions();
     requestAnimationFrame(updatePositions);

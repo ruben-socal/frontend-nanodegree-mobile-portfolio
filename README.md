@@ -49,27 +49,43 @@ Part 2: Make optimizations to views/main.js so that views/pizza.html renders con
 4. Used preload in <link> to preload images
 5. Minimized javascript main.js and added file name extension: main.min.js
 
-#### views/main.js optimizations
-1. On the function **changePizzaSizes** I used **Udacitys Cameron Pittmans video Stop FSL** (Forced Synchronous Layout) to
+#### views/src/main.js optimizations
+1. On function resizePizzas, I replaced querySelector with getElementById to improve performance.
+
+2. On the function **changePizzaSizes** I used **Udacitys Cameron Pittmans video Stop FSL** (Forced Synchronous Layout) to
    solve the problem of FSL. The **offsetWidth** being called before the **style.width**
    was causing the FSL, therefore I removed **offsetWidth**, combined **determinDX** with
    **changePizzaSizes** and set the newwidth based on the size and set the **style.width = newwidth**.
    I also optimized the code by removing function determineDx.
 
-2. On function **updatePositions** I used **"Website Optimization Project webcasts: Tips - Increasing
+3. Line 504, creating a new variable in the loop can be very expensive so I move the creation of pizzaDiv outside the loop
+
+4. On function **updatePositions** I used **"Website Optimization Project webcasts: Tips - Increasing
    Framerate (FPS)"** to optimized the function. I used **transform = translateX** to keep layouts
    from retriggering and removed items.style.left and moved variables not required in
-   for loop out: items, cacheScrollTop and phaseNumber.
+   for loop out: items, cacheScrollTop and phaseNumber. len variable created to keep track of the items array length.
 
-3. I replaced **window.addEventListener('scroll', updatePositions)** with **window.addEventListener('scroll', onScroll, false)**
+5. On Function updatePositions creating a variable in a loop can be very expensive, so I moved the creation of phase variable
+   outside the for loop. Doing Math.sin calculations in loop can also be very expensive so I move the calculation into a phase
+   array. I created a phase array that contains 5 calculations outside the loop, because the  modulus 5 returns only 5 values, 0-4.
+   On translateX I removed items[i].basicLeft from the equation to correct problem with background pizzas only showing 50% or less 
+   of most screens.
+
+6. I replaced **window.addEventListener('scroll', updatePositions)** with **window.addEventListener('scroll', onScroll, false)**
    using code optimization called ["Debouncing Scroll Events" by Paul Lewis](https://www.html5rocks.com/en/tutorials/speed/animations)
    this keeps requestAnimationFrame from causing reflow and repaint which increases the frame rates per second.
    onScroll and requestTick are used to with requestAnimationFrame to avoid reflow-repaint loops
    and is only call when requestAnimationFrame updates are needed.
 
-4. I replaced **document.addEventListener('DOMContentLoaded', function()** with
+7. I replaced **document.addEventListener('DOMContentLoaded', function()** with
    **document.readystatechange** this checks when the document has loaded and
    prevents the asynchronous javascript file main.min.js from loading before the document causing
    background pizzas to disappear. [The solution came from this site:](http://stackoverflow.com/questions/9237044/async-loaded-scripts-with-domcontentloaded-or-load-event-handlers-not-being-call)
    I also reduced number of pizzas from 200 to 31 which is all that is needed to fill window. This reduces the
-   time it takes to load pizza images.
+   time it takes to load pizza images. I moved the creation of variable elem outside the loop. I replaced querySelector
+   with getElementById. Because translateX is being used in updatePositions, a required change was need to elem.basicLeft to
+   elem.style.left = (i % cols) * s + 'px'. I created variable movingPizza so I could move call to document.getElementsById outside the loop.
+
+#### views/src/style.css optimizations
+1. added backface-visibility: hidden to improve framerate by making each indiivdual pizza a composite layer and keep from having to repaint 
+   a whole layer which takes more time. Hack credit goes to Mark N from Website Optimization Project Webcasts: Tips - Increasing Framerate (FPS)
